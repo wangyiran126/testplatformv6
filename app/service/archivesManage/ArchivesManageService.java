@@ -3,24 +3,38 @@ package service.archivesManage;
 import dao.DepartmentDao;
 import entity.Department;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import repository.DepartmentRepository;
 import tyrex.util.ArraySet;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import javax.inject.Inject;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * Created by wangyiran on 6/9/2016.
  */
-@Component
+@Service
+@Transactional
 public class ArchivesManageService {
-    final private DepartmentRepository departmentRepository;
-    final private DepartmentDao departmentDao;
-    @Autowired
-    public ArchivesManageService(DepartmentRepository departmentRepository, DepartmentDao departmentDao) {
-        this.departmentRepository = departmentRepository;
-        this.departmentDao = departmentDao;
+    @Inject
+    private DepartmentRepository departmentRepository;
+
+//    @Autowired
+//    public ArchivesManageService(DepartmentRepository departmentRepository) {
+//        this.departmentRepository = departmentRepository;
+//    }
+
+
+//    @Autowired
+//    public void setDepartmentRepository(DepartmentRepository departmentRepository) {
+//        this.departmentRepository = departmentRepository;
+//    }
+
+    public DepartmentRepository getDepartmentRepository() {
+        return departmentRepository;
     }
 
     public Department test() {
@@ -56,7 +70,9 @@ public class ArchivesManageService {
              department = optional.get();
             Integer depth = departments.size();
                     while (depth >= 0){
+                        if (parentDepartment == null)
                         parentDepartment =department.getParentDepartments();
+                        else parentDepartment = parentDepartment.getParentDepartments();
                         if (depth == 0){
                             parentDepartment.setParentDepartments(null);
                         }
@@ -65,9 +81,17 @@ public class ArchivesManageService {
         }
         return department;
     }
+//
+//    public List<Department> getDepartment2(Long deptId) {
+//        List<Department> departments = departmentDao.getDepartment(deptId);
+//        return departments;
+//    }
 
-    public List<Department> getDepartment2(Long deptId) {
-        List<Department> departments = departmentDao.getDepartment(deptId);
-        return departments;
+    public Long saveDepartment(String name) {
+        Department department = new Department();
+        department.setId(1l);
+        department.setName(name);
+        Department saveed = departmentRepository.save(department);
+        return saveed.getId();
     }
 }

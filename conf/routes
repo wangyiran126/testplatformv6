@@ -11,4 +11,5 @@ GET     /testgenerate/test/:scaleCode2            controllers.ArchivesManageCont
 
 GET     /getDepartment/:deptId                      controllers.ArchivesManageController.getDepartment(deptId:Long)
 
-GET     /getDepartment2/:deptId                      controllers.ArchivesManageController.getDepartment2(deptId:Long)
+
+GET     /saveDepartment/:name                       controllers.ArchivesManageController.saveDepartment(name:String)

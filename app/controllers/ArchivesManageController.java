@@ -5,6 +5,7 @@ import collectivereport.factory.ServiceFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import entity.Department;
+import org.springframework.transaction.annotation.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -46,9 +47,11 @@ public class ArchivesManageController extends Controller {
         return ok(jsonNode);
     }
 
-    public Result getDepartment2(Long deptId ){
-        List<Department> departments = archivesManageService.getDepartment2(deptId);
-        JsonNode jsonNode = Json.toJson(departments);
+
+    public Result saveDepartment(String name){
+        Long deptId = archivesManageService.saveDepartment(name);
+        JsonNode jsonNode = Json.toJson(deptId);
+
         return ok(jsonNode);
     }
 
