@@ -21,6 +21,13 @@ libraryDependencies += "com.google.code.gson" % "gson" % "2.7"
 
 libraryDependencies += "org.neo4j" % "neo4j-ogm-http-driver" % "2.0.5"
 
+libraryDependencies += "org.neo4j" % "neo4j-ogm" % "2.0.5"
+
+// https://mvnrepository.com/artifact/org.neo4j/neo4j-ogm-core
+libraryDependencies += "org.neo4j" % "neo4j-ogm-core" % "2.0.5"
+
+libraryDependencies += "com.google.guava" % "guava" % "19.0"
+
 routesGenerator := InjectedRoutesGenerator
 
 unmanagedResourceDirectories in Test <+=  baseDirectory ( _ /"target/web/public/test" )  

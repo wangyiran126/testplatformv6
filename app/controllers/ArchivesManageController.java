@@ -5,7 +5,6 @@ import collectivereport.factory.ServiceFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import entity.Department;
-import org.springframework.transaction.annotation.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -55,5 +54,42 @@ public class ArchivesManageController extends Controller {
         return ok(jsonNode);
     }
 
+    public Result deleteDepartment(Long deptId){
+         archivesManageService.deleteDepartment(deptId);
+        return ok();
+    }
+
+    /**
+     * 获取部门结构
+     * @return
+     */
+    public Result getHeritanceRootDepartment(){
+        Department departments = archivesManageService.getHeritanceRootDepartment();
+        JsonNode jsonNode = Json.toJson(departments);
+
+        return ok(jsonNode);
+    }
+
+    /**
+     * 添加部门
+     * @param name 部门名称
+     * @param parentId 副部门id
+     * @return
+     */
+    public Result addDepartment(String name,Long parentId){
+        Long id = archivesManageService.addDepartment(name,parentId);
+        JsonNode jsonNode = Json.toJson(id);
+        return ok(jsonNode);
+    }
+
+    public Result moveDepartment(String movedId,Long parentId){
+//        archivesManageService.moveDepartment(movedId,parentId);
+        return ok();
+    }
+
+    public Result createDepartment(String name){
+        archivesManageService.createDepartment(name);
+        return ok();
+    }
 
 }

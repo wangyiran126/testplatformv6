@@ -1,14 +1,13 @@
 package service.archivesManage;
 
-import dao.DepartmentDao;
 import entity.Department;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import repository.DepartmentRepository;
 import tyrex.util.ArraySet;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -17,7 +16,6 @@ import java.util.Set;
  * Created by wangyiran on 6/9/2016.
  */
 @Service
-@Transactional
 public class ArchivesManageService {
     @Inject
     private DepartmentRepository departmentRepository;
@@ -63,7 +61,7 @@ public class ArchivesManageService {
 
     public Department getDepartment(Long deptId) {
         List<Department> departments = departmentRepository.getDepart(deptId);
-        Optional<Department> optional =  departments.stream().filter(d -> d.getId().equals(deptId)).findFirst();
+        Optional<Department> optional =  departments.stream().filter(d -> d.getDepartId().equals(deptId)).findFirst();
         Department parentDepartment = null;
         Department department = null;
         if (optional.isPresent()){
@@ -81,17 +79,44 @@ public class ArchivesManageService {
         }
         return department;
     }
-//
-//    public List<Department> getDepartment2(Long deptId) {
-//        List<Department> departments = departmentDao.getDepartment(deptId);
-//        return departments;
-//    }
 
+    @Transactional
     public Long saveDepartment(String name) {
         Department department = new Department();
-        department.setId(1l);
+//        department.setId(1l);
         department.setName(name);
         Department saveed = departmentRepository.save(department);
-        return saveed.getId();
+        return saveed.getDepartId();
+    }
+
+    @Transactional
+    public void deleteDepartment(Long deptId) {
+        departmentRepository.delete(deptId);
+    }
+
+    @Transactional
+    public Department getHeritanceRootDepartment() {
+        Iterable<Department> departments = departmentRepository.findAll();
+        List<Department> departmentList = new ArrayList<>();
+        departments.forEach(t->departmentList.add(t));
+        Optional<Department> optional = departmentList.stream().filter(t->"init".equals(t.getName())).findAny();
+        Department root = null;
+        if (optional.isPresent()) root = optional.get();
+//        root.setParentDepartments(null);
+        return  root;
+
+    }
+
+    @Transactional
+    public Long addDepartment(String name, Long parentId) {
+        return departmentRepository.addDepartment(name,parentId);
+    }
+
+//    public void moveDepartment(String movedId, Long parentId) {
+//        departmentRepository.moveDepartment(movedId,parentId);
+//    }
+
+    public void createDepartment(String name) {
+        departmentRepository.createDepartment(name);
     }
 }

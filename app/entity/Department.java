@@ -13,20 +13,21 @@ import java.util.Set;
 @NodeEntity
 public class Department {
     @GraphId
-    Long id;
+    Long departId;
 
     @Relationship(type="have",direction = Relationship.OUTGOING)
     Set<Department> subDepartments;
+    @JsonIgnore
     @Relationship(type = "belong",direction = Relationship.INCOMING)
     Department parentDepartments;
     String name;
 
-    public Long getId() {
-        return id;
+    public Long getDepartId() {
+        return departId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setDepartId(Long departId) {
+        this.departId = departId;
     }
 
     public Set<Department> getSubDepartments() {
@@ -36,7 +37,7 @@ public class Department {
     public void setSubDepartments(Set<Department> subDepartments) {
         this.subDepartments = subDepartments;
     }
-
+    @Relationship(type = "belong",direction = Relationship.INCOMING)
     public Department getParentDepartments() {
         return parentDepartments;
     }
