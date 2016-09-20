@@ -12,24 +12,33 @@ import java.util.Set;
  */
 @NodeEntity
 public class Department {
+    public static final String RootName = "init";
+
+    public String getRootName() {
+        return RootName;
+    }
+
     @GraphId
     Long departId;
 
     @Relationship(type="have",direction = Relationship.OUTGOING)
     Set<Department> subDepartments;
+
     @JsonIgnore
-    @Relationship(type = "belong",direction = Relationship.INCOMING)
-    Department parentDepartments;
-    String name;
+    @Relationship(type = "have",direction = Relationship.INCOMING)
+    Department parentDepartment;
+
+    @Relationship(type = "in",direction = Relationship.INCOMING)
+    Set<User> users;
 
     public Long getDepartId() {
         return departId;
     }
 
     public void setDepartId(Long departId) {
+
         this.departId = departId;
     }
-
     public Set<Department> getSubDepartments() {
         return subDepartments;
     }
@@ -37,13 +46,21 @@ public class Department {
     public void setSubDepartments(Set<Department> subDepartments) {
         this.subDepartments = subDepartments;
     }
-    @Relationship(type = "belong",direction = Relationship.INCOMING)
-    public Department getParentDepartments() {
-        return parentDepartments;
+
+    public Department getParentDepartment() {
+        return parentDepartment;
     }
 
-    public void setParentDepartments(Department parentDepartments) {
-        this.parentDepartments = parentDepartments;
+    public void setParentDepartment(Department parentDepartment) {
+        this.parentDepartment = parentDepartment;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 
     public String getName() {
@@ -53,4 +70,8 @@ public class Department {
     public void setName(String name) {
         this.name = name;
     }
+
+    String name;
+
+
 }

@@ -11,7 +11,6 @@ import play.mvc.Result;
 import service.archivesManage.ArchivesManageService;
 
 import javax.inject.Inject;
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -40,11 +39,11 @@ public class ArchivesManageController extends Controller {
         return ok(String.valueOf(scaleCode));
     }
 
-    public Result getDepartment(Long deptId ){
-        Department department = archivesManageService.getDepartment(deptId);
-        JsonNode jsonNode = Json.toJson(department);
-        return ok(jsonNode);
-    }
+//    public Result getDepartment(Long deptId ){
+//        Department department = archivesManageService.getDepartment(deptId);
+//        JsonNode jsonNode = Json.toJson(department);
+//        return ok(jsonNode);
+//    }
 
 
     public Result saveDepartment(String name){
@@ -53,6 +52,7 @@ public class ArchivesManageController extends Controller {
 
         return ok(jsonNode);
     }
+
 
     public Result deleteDepartment(Long deptId){
          archivesManageService.deleteDepartment(deptId);
@@ -82,14 +82,17 @@ public class ArchivesManageController extends Controller {
         return ok(jsonNode);
     }
 
-    public Result moveDepartment(String movedId,Long parentId){
-//        archivesManageService.moveDepartment(movedId,parentId);
+    public Result moveDepartment(Long movedId,Long parentId){
+        archivesManageService.moveDepartment(movedId,parentId);
         return ok();
     }
 
     public Result createDepartment(String name){
-        archivesManageService.createDepartment(name);
-        return ok();
+        Long id =  archivesManageService.createDepartment(name);
+        JsonNode jsonNode = Json.toJson(id);
+        return ok(jsonNode);
     }
+
+//    public Result addPerson(Long deptId,String username,)
 
 }

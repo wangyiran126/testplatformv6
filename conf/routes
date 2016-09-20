@@ -9,9 +9,6 @@ GET     /testgenerate/test/:scaleCode/:code            controllers.ArchivesManag
 
 GET     /testgenerate/test/:scaleCode2            controllers.ArchivesManageController.test2(scaleCode2:Integer)
 
-GET     /department/getDepartment/:deptId                      controllers.ArchivesManageController.getDepartment(deptId:Long)
-
-
 GET     /department/saveDepartment/:name                       controllers.ArchivesManageController.saveDepartment(name:String)
 
 GET     /department/deleteDepartment/:deptId                   controllers.ArchivesManageController.deleteDepartment(deptId:Long)
@@ -21,3 +18,5 @@ GET     /department/getHeritanceRootDepartment                 controllers.Archi
 GET     /department/addDepartment/:name/:parentId              controllers.ArchivesManageController.addDepartment(name:String,parentId:Long)
 
 GET     /department/createDepartment/:name                     controllers.ArchivesManageController.createDepartment(name:String)
+
+GET     /department/moveDepartment/:movedId/:parentId           controllers.ArchivesManageController.moveDepartment(movedId:Long,parentId:Long)
