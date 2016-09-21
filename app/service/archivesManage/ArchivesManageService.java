@@ -1,9 +1,11 @@
 package service.archivesManage;
 
 import entity.Department;
+import entity.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import repository.DepartmentRepository;
+import repository.UserRepository;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -16,6 +18,8 @@ import java.util.Optional;
 public class ArchivesManageService {
     @Inject
     private DepartmentRepository departmentRepository;
+    @Inject
+    private UserRepository userRepository;
 
 //    @Autowired
 //    public ArchivesManageService(DepartmentRepository departmentRepository) {
@@ -82,15 +86,28 @@ public class ArchivesManageService {
         return departmentRepository.addDepartment(name,parentId);
     }
 
-//    public void moveDepartment(String movedId, Long parentId) {
-//        departmentRepository.moveDepartment(movedId,parentId);
-//    }
-
     public Long createDepartment(String name) {
         return departmentRepository.createDepartment(name);
     }
 
-    public void moveDepartment(Long willMoveId, Long parentId) {
-        Department department = departmentRepository.getDepartment(willMoveId);
+    public void moveDepartment(Long movedDeptId,Long toDeptId) {
+        departmentRepository.moveDepartment(movedDeptId,toDeptId);
+    }
+
+    public Long addUser(String name, String account) {
+        User user = new User();
+        user.setAccount(account);
+        user.setName(name);
+        user = userRepository.save(user);
+        return user.getId();
+    }
+
+    /**
+     * 添加用户到部门
+     * @param userId
+     * @param departmentId
+     */
+    public void addUserToDepartment(Long userId, Long departmentId) {
+        userRepository.addUserToDepartment(userId,departmentId);
     }
 }

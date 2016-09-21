@@ -31,6 +31,10 @@ public interface DepartmentRepository extends GraphRepository<Department> {
     @Query("match (d:Department)-[r]-(o) return r")
     List<Department> getDepartments();
 
+//  部门里面的人员一并移走 以后还有用户类型
+    @Query("match(from:Department)-[h:have]->(source:Department),(to:Department)  where ID(source)={movedDeptId} and ID(to)={toDeptId} create (to)-[:have]->(source) delete h")
+    void moveDepartment(@Param("movedDeptId") Long movedDeptId, @Param("toDeptId") Long toDeptId);
+
 //TODO 创建新节点关系
 //    match(n:Department) where n.id = 5 create (n)-[r:have]->(b:Department{name:"2连"})
 //match(n:Department),(m:Department) where ID(n)=11 and ID(m)=5 create (n)-[r:belong]->(m)

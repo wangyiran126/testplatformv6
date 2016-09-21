@@ -82,8 +82,14 @@ public class ArchivesManageController extends Controller {
         return ok(jsonNode);
     }
 
-    public Result moveDepartment(Long movedId,Long parentId){
-        archivesManageService.moveDepartment(movedId,parentId);
+    /**
+     * 移动部门 movedDeptId到toDeptId下
+     * @param movedDeptId
+     * @param toDeptId
+     * @return
+     */
+    public Result moveDepartment(Long movedDeptId,Long toDeptId){
+        archivesManageService.moveDepartment(movedDeptId,toDeptId);
         return ok();
     }
 
@@ -93,6 +99,28 @@ public class ArchivesManageController extends Controller {
         return ok(jsonNode);
     }
 
-//    public Result addPerson(Long deptId,String username,)
+    /**
+     * 添加用户
+     * @param name
+     * @param account
+     * @return
+     */
+    public Result addUser(String name,String account){
+        Long userId = archivesManageService.addUser(name,account);
+        JsonNode jsonNode = Json.toJson(userId);
+        return ok(jsonNode);
+    }
+
+    /**
+     * 添加用户到部门
+     * @param userId
+     * @param departmentId
+     * @return
+     */
+    public Result addUserToDepartment(Long userId,Long departmentId){
+        archivesManageService.addUserToDepartment(userId,departmentId);
+        return ok();
+    }
+
 
 }

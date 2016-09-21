@@ -19,4 +19,8 @@ GET     /department/addDepartment/:name/:parentId              controllers.Archi
 
 GET     /department/createDepartment/:name                     controllers.ArchivesManageController.createDepartment(name:String)
 
-GET     /department/moveDepartment/:movedId/:parentId           controllers.ArchivesManageController.moveDepartment(movedId:Long,parentId:Long)
+GET     /department/moveDepartment/:movedDeptId/:toDeptId           controllers.ArchivesManageController.moveDepartment(movedDeptId:Long,toDeptId:Long)
+
+GET     /user/addUser/:name/:account                            controllers.ArchivesManageController.addUser(name:String,account:String)
+
+GET     /user/addUserToDepartment/:userId/:departmentId         controllers.ArchivesManageController.addUserToDepartment(userId:Long,departmentId:Long)
