@@ -5,8 +5,7 @@ import collectivereport.factory.ServiceFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import entity.Department;
-import entity.UserType;
-import entity.UserTypeExt;
+import entity.OptionValue;
 import play.libs.Json;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
@@ -15,11 +14,7 @@ import play.twirl.api.Content;
 import service.archivesManage.ArchivesManageService;
 
 import javax.inject.Inject;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by wangyiran on 29/8/2016.
@@ -130,24 +125,85 @@ public class ArchivesManageController extends Controller {
         return ok();
     }
 
+    /**
+     * 添加用户类型和扩展项
+     * @return
+     */
     @BodyParser.Of(BodyParser.Json.class)
     public Result addUserType(){
         JsonNode json = request().body().asJson();
+        //用户类型名
         String userTypeName = json.get("userTypeName").asText();
-        JsonNode userTypeExtJsonNode = json.get("userTypeExts");
-        Set<UserTypeExt> userTypeExts = new HashSet<>();
-        Class<Set<UserTypeExt>> userTypeExtClass = (Class<Set<UserTypeExt>>) userTypeExts.getClass();
-        userTypeExts = Json.fromJson(userTypeExtJsonNode,userTypeExtClass);
-        Long userTypeId = archivesManageService.addUserType(userTypeName,userTypeExts);
+        //用户扩展ids
+        JsonNode userTypeExtJsonNode = json.get("userExtIds");
+        List<Long> userTypeExtIds = new ArrayList<>();
+        userTypeExtJsonNode.elements().forEachRemaining(node->{
+            userTypeExtIds.add(node.asLong());
+        });
+        Long userTypeId = archivesManageService.addUserType(userTypeName,userTypeExtIds);
         return ok();
 
     }
 
     /**
+     * 创建一个用户扩展选项
+     * @return
+     */
+    @BodyParser.Of(BodyParser.Json.class)
+    public Result createUserTypeExt(){
+        JsonNode json = request().body().asJson();
+        //扩展项名
+        String userTypeName = json.get("name").asText();
+        //扩展项类型
+        String type = json.get("type").asText();
+        //选项
+        JsonNode jsonNode = json.get("optionValues");
+        List<OptionValue> optionValues = OptionValue.create(jsonNode);
+        Long userTypeExtId = archivesManageService.createUserTypeExt(userTypeName,type,optionValues);
+        JsonNode jsonNode1 = Json.toJson(userTypeExtId);
+        return ok(jsonNode1);
+    }
+
+    /**
+     * 添加用户类型扩展的页面
+     */
+    public Result createUserTypeExtHtml(){
+        Content html =  views.html.archiveManage.createUserTypeExt.render();
+        return ok(html);
+    }
+
+    /**
      * 添加用户类型的页面
      */
-    public Result userType(){
-        Content html = views.html.archiveManage.userType.render();
+    public Result addUserTypeHtml(){
+        Content html = views.html.archiveManage.addUserType.render();
+        return ok(html);
+    }
+
+    /**
+     * 创建用户，添加信息
+     */
+    public Result createUser(){
+        JsonNode json = request().body().asJson();
+        //账户名称
+        String account = json.get("account").asText();
+        //用户名
+        String userName = json.get("name").asText();
+        //用户类型id
+        Long userTypeId = json.get("userTypeId").asLong();
+        //部门id
+        Long departmentId = json.get("departmentId").asLong();
+
+       Long userId =  archivesManageService.createUser(account,userName,userTypeId,departmentId);
+        JsonNode jsonNode1 = Json.toJson(userId);
+        return ok(jsonNode1);
+    }
+
+    /**
+     * 创建用户，添加信息
+     */
+    public Result createUserHtml(){
+        Content html = views.html.archiveManage.createUser.render();
         return ok(html);
     }
 

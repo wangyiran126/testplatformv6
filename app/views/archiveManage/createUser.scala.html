@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>创建用户</title>
+    <script src='@routes.Assets.at("javascripts/jquery-1.9.0.min.js")'></script>
+</head>
+<body>
+
+</body>
+</html>
+
+    <script>
+
+          var parameters = {};
+          //账户名称
+          parameters["account"] = "wangyiran3";
+          //用户名
+          parameters["name"] = "王奕然3";
+          //用户类型id
+          parameters["userTypeId"] = 113;
+          //部门id
+          parameters["departmentId"] = 12;
+
+          $.ajax({
+                      method: "POST",
+                      url: "/user/createUser",
+                      data: JSON.stringify(parameters),
+                      dataType: "json",
+                      contentType:"application/json"
+                  })
+                  .done(function( msg ) {
+                      alert( "Data Saved: " + msg );
+                  });
+
+
+    </script>

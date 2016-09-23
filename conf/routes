@@ -29,7 +29,19 @@ GET     /user/addUser/:name/:account                            controllers.Arch
 #添加用户到部门下
 GET     /user/addUserToDepartment/:userId/:departmentId         controllers.ArchivesManageController.addUserToDepartment(userId:Long,departmentId:Long)
 
-POST     /user/addUserType/                                      controllers.ArchivesManageController.addUserType
+#添加用户类型和扩展项
+POST     /user/addUserType                                      controllers.ArchivesManageController.addUserType
 
 #添加用户类型的页面
-GET     /user/userType                                          controllers.ArchivesManageController.userType
+GET     /user/addUserTypeHtml                                          controllers.ArchivesManageController.addUserTypeHtml
+
+#添加用户类型扩展的页面
+GET     /user/createUserTypeExtHtml                             controllers.ArchivesManageController.createUserTypeExtHtml
+
+#添加用户类型选项
+POST     /user/createUserTypeExt                                 controllers.ArchivesManageController.createUserTypeExt
+
+#添加用户
+GET     /user/createUserHtml                                     controllers.ArchivesManageController.createUserHtml
+
+POST     /user/createUser                                       controllers.ArchivesManageController.createUser

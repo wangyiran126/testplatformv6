@@ -12,18 +12,14 @@
 
     <script>
 
-          var parameters = {};
+          var parameters = {userTypeName:"",userExtIds:[]};
           parameters["userTypeName"] = "用户类型1";
-          var ext = {name:"角色",type:"select",options:[]};
-          var  option = {name:"战士",value:"1"};
-          var  option2 = {name:"法师",value:"2"};
-          ext["options"].push(option);
-          ext["options"].push(option2);
-          var userType = {};
-          parameters["userTypeExts"] =ext;
+          parameters["userExtIds"].push(11);
+          parameters["userExtIds"].push(9);
+
           $.ajax({
                       method: "POST",
-                      url: "/user/addUserType/",
+                      url: "/user/addUserType",
                       data: JSON.stringify(parameters),
                       dataType: "json",
                       contentType:"application/json"

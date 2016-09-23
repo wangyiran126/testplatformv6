@@ -1,6 +1,8 @@
 package entity;
 
+import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
+import org.neo4j.ogm.annotation.Relationship;
 
 import java.util.List;
 
@@ -9,11 +11,14 @@ import java.util.List;
  */
 @NodeEntity
 public class UserTypeExt {
+    @GraphId
+    private Long id;
     //用户类型名
     private String name;
     //种类
     private String type;
     //选项和值
+    @Relationship(type = "have",direction = Relationship.OUTGOING)
     private List<OptionValue> options;
 
     public List<OptionValue> getOptions() {
@@ -39,5 +44,13 @@ public class UserTypeExt {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

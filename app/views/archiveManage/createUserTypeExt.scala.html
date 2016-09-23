@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>用户扩展类型</title>
+    <script src='@routes.Assets.at("javascripts/jquery-1.9.0.min.js")'></script>
+</head>
+<body>
+
+</body>
+</html>
+
+    <script>
+
+          var parameters = {name:"",type:"",optionValues:[]};
+//          parameters["name"] = "角色";
+//          parameters["type"] = "select";
+//          var options = [];
+//          var  option1 = {name:"战士",value:"1"};
+//          var  option2 = {name:"法师",value:"2"};
+          parameters["name"] = "年龄";
+          parameters["type"] = "text";
+          var options = [];
+          parameters["optionValues"] = options;
+          $.ajax({
+                      method: "POST",
+                      url: "/user/createUserTypeExt",
+                      data: JSON.stringify(parameters),
+                      dataType: "json",
+                      contentType:"application/json"
+                  })
+                  .done(function( msg ) {
+                      alert( "Data Saved: " + msg );
+                  });
+
+
+    </script>

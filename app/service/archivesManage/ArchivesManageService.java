@@ -1,19 +1,14 @@
 package service.archivesManage;
 
-import entity.Department;
-import entity.User;
-import entity.UserType;
-import entity.UserTypeExt;
+import entity.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import repository.DepartmentRepository;
-import repository.UserRepository;
-import repository.UserTypeRepository;
+import repository.*;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * Created by wangyiran on 6/9/2016.
@@ -26,6 +21,10 @@ public class ArchivesManageService {
     private UserRepository userRepository;
     @Inject
     private UserTypeRepository userTypeRepository;
+    @Inject
+    private UserTypeExtRepository userTypeExtRepository;
+    @Inject
+    private OptionValueRepository optionValueRepository;
 
 //    @Autowired
 //    public ArchivesManageService(DepartmentRepository departmentRepository) {
@@ -117,11 +116,60 @@ public class ArchivesManageService {
         userRepository.addUserToDepartment(userId,departmentId);
     }
 
-    public Long addUserType(String userTypeName, Set<UserTypeExt> userTypeExts) {
+    /**
+     * 添加用户类型和扩展项
+     * @param userTypeName
+     * @param userTypeExts
+     * @return
+     */
+    @Transactional
+    public Long addUserType(String userTypeName, List<Long> userTypeExtsIds) {
+        //保存用户类型
         UserType userType = new UserType();
-        userType.setUserTypeExts(userTypeExts);
         userType.setUserTypeName(userTypeName);
-        UserType userType1 = userTypeRepository.save(userType);
-        return userType1.getId();
+        userTypeRepository.save(userType);
+        //TODO 保持用户类型有用户扩展类型关系
+        userTypeRepository.saveHaveUserTypeExt(userType.getId(),userTypeExtsIds);
+        return userType.getId();
+    }
+
+    @Transactional
+    public Long createUserTypeExt(String name, String type, List<OptionValue> optionValues) {
+        optionValueRepository.save(optionValues);
+        List<Long> optionValuesIds = new ArrayList<>();
+        optionValues.forEach(t->{
+            optionValuesIds.add(t.getId());
+        });
+
+        UserTypeExt userTypeExt = new UserTypeExt();
+        userTypeExt.setName(name);
+        userTypeExt.setType(type);
+        userTypeExtRepository.save(userTypeExt);
+         userTypeExtRepository.saveHaveOption(userTypeExt.getId(),optionValuesIds);
+        UserTypeExt userTypeExt1 = userTypeExtRepository.save(userTypeExt);
+        return userTypeExt1.getId();
+    }
+
+    /**
+     * 创建用户
+     * @param account 账户名
+     * @param userName  用户名
+     * @param userTypeId   用户类型id
+     * @param departmentId 所属部门id
+     * @return
+     */
+    @Transactional
+    public Long createUser(String account, String userName, Long userTypeId, Long departmentId) {
+        //TODO 不回滚
+        Department department = new Department();
+        department.setName("444444");
+        departmentRepository.save(department);
+        User user = new User();
+        user.setAccount(account);
+        user.setName(userName);
+        userRepository.save(user);
+        Long userId = user.getId();
+        userRepository.saveUserTypeAndDepartment(userId,userTypeId,departmentId);
+        return userId;
     }
 }

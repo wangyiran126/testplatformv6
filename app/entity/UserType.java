@@ -4,6 +4,7 @@ import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -13,9 +14,11 @@ import java.util.Set;
 public class UserType {
     @GraphId
     private Long id;
+    //用户类型名
     private String userTypeName;
-    @Relationship(type = "contain",direction = Relationship.OUTGOING)
-    Set<UserTypeExt> userTypeExts;
+    //用户类型扩展
+    @Relationship(type = "have",direction = Relationship.OUTGOING)
+    Set<UserTypeExt> userTypeExts = new HashSet<>();
 
     public String getUserTypeName() {
         return userTypeName;
