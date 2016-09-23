@@ -17,10 +17,19 @@ GET     /department/getHeritanceRootDepartment                 controllers.Archi
 
 GET     /department/addDepartment/:name/:parentId              controllers.ArchivesManageController.addDepartment(name:String,parentId:Long)
 
+#创建部门
 GET     /department/createDepartment/:name                     controllers.ArchivesManageController.createDepartment(name:String)
 
+#移动部门到另一部门下
 GET     /department/moveDepartment/:movedDeptId/:toDeptId           controllers.ArchivesManageController.moveDepartment(movedDeptId:Long,toDeptId:Long)
 
+#创建用户
 GET     /user/addUser/:name/:account                            controllers.ArchivesManageController.addUser(name:String,account:String)
 
+#添加用户到部门下
 GET     /user/addUserToDepartment/:userId/:departmentId         controllers.ArchivesManageController.addUserToDepartment(userId:Long,departmentId:Long)
+
+POST     /user/addUserType/                                      controllers.ArchivesManageController.addUserType
+
+#添加用户类型的页面
+GET     /user/userType                                          controllers.ArchivesManageController.userType

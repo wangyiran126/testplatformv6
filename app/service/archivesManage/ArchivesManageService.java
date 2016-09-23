@@ -2,14 +2,18 @@ package service.archivesManage;
 
 import entity.Department;
 import entity.User;
+import entity.UserType;
+import entity.UserTypeExt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import repository.DepartmentRepository;
 import repository.UserRepository;
+import repository.UserTypeRepository;
 
 import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Created by wangyiran on 6/9/2016.
@@ -20,6 +24,8 @@ public class ArchivesManageService {
     private DepartmentRepository departmentRepository;
     @Inject
     private UserRepository userRepository;
+    @Inject
+    private UserTypeRepository userTypeRepository;
 
 //    @Autowired
 //    public ArchivesManageService(DepartmentRepository departmentRepository) {
@@ -109,5 +115,13 @@ public class ArchivesManageService {
      */
     public void addUserToDepartment(Long userId, Long departmentId) {
         userRepository.addUserToDepartment(userId,departmentId);
+    }
+
+    public Long addUserType(String userTypeName, Set<UserTypeExt> userTypeExts) {
+        UserType userType = new UserType();
+        userType.setUserTypeExts(userTypeExts);
+        userType.setUserTypeName(userTypeName);
+        UserType userType1 = userTypeRepository.save(userType);
+        return userType1.getId();
     }
 }

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>创建用户类型</title>
+    <script src='@routes.Assets.at("javascripts/jquery-1.9.0.min.js")'></script>
+</head>
+<body>
+
+</body>
+</html>
+
+    <script>
+
+          var parameters = {};
+          parameters["userTypeName"] = "用户类型1";
+          var ext = {name:"角色",type:"select",options:[]};
+          var  option = {name:"战士",value:"1"};
+          var  option2 = {name:"法师",value:"2"};
+          ext["options"].push(option);
+          ext["options"].push(option2);
+          var userType = {};
+          parameters["userTypeExts"] =ext;
+          $.ajax({
+                      method: "POST",
+                      url: "/user/addUserType/",
+                      data: JSON.stringify(parameters),
+                      dataType: "json",
+                      contentType:"application/json"
+                  })
+                  .done(function( msg ) {
+                      alert( "Data Saved: " + msg );
+                  });
+
+
+    </script>

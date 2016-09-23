@@ -28,6 +28,10 @@ libraryDependencies += "org.neo4j" % "neo4j-ogm-core" % "2.0.5"
 
 libraryDependencies += "com.google.guava" % "guava" % "19.0"
 
+libraryDependencies += "org.codehaus.jackson" % "jackson-mapper-asl" % "1.9.13"
+
+libraryDependencies += "com.fasterxml.jackson.core" % "jackson-core" % "2.8.2"
+
 routesGenerator := InjectedRoutesGenerator
 
 unmanagedResourceDirectories in Test <+=  baseDirectory ( _ /"target/web/public/test" )  
