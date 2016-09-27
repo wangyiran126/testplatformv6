@@ -1,11 +1,17 @@
-package controllers;
+package controllers.archiveManage;
 
 import collectivereport.base.StatisticService;
 import collectivereport.factory.ServiceFactory;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.ser.FilterProvider;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import entity.Department;
 import entity.OptionValue;
+import entity.User;
 import play.libs.Json;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
@@ -14,7 +20,9 @@ import play.twirl.api.Content;
 import service.archivesManage.ArchivesManageService;
 
 import javax.inject.Inject;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by wangyiran on 29/8/2016.
@@ -68,8 +76,18 @@ public class ArchivesManageController extends Controller {
      */
     public Result getHeritanceRootDepartment(){
         Department departments = archivesManageService.getHeritanceRootDepartment();
+//        ObjectMapper mapper = new ObjectMapper();
+//        FilterProvider filterProvider = new SimpleFilterProvider().addFilter("subDepartmentFilter"
+//        , SimpleBeanPropertyFilter.filterOutAllExcept("parentDepartment","users,subDepartments"));
+//        mapper.setFilterProvider(filterProvider);
+////        JsonNode jsonNode = mapper.valueToTree(departments);
+//        try {
+//            String json = mapper.writeValueAsString(departments);
+//            return ok(json);
+//        } catch (JsonProcessingException e) {
+//            e.printStackTrace();
+//        }
         JsonNode jsonNode = Json.toJson(departments);
-
         return ok(jsonNode);
     }
 
@@ -205,6 +223,16 @@ public class ArchivesManageController extends Controller {
     public Result createUserHtml(){
         Content html = views.html.archiveManage.createUser.render();
         return ok(html);
+    }
+
+    /**
+     * 获取用户信息
+     * @return
+     */
+    public Result getUserInfo(Long userId){
+        User userInfo = archivesManageService.getUserInfo(userId);
+        JsonNode jsonNode1 = Json.toJson(userInfo);
+        return ok(jsonNode1);
     }
 
 }

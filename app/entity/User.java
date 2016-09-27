@@ -1,9 +1,9 @@
 package entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
-import org.neo4j.ogm.cypher.query.SortOrder;
 
 /**
  * Created by wangyiran on 2/9/2016.
@@ -21,6 +21,7 @@ public class User {
     private UserType userType;
 
     //用户所属部门
+    @JsonBackReference
     @Relationship(type = "in",direction = Relationship.OUTGOING)
     private Department department;
 

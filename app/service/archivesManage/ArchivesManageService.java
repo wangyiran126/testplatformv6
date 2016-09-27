@@ -1,6 +1,7 @@
 package service.archivesManage;
 
 import entity.*;
+import org.neo4j.ogm.exception.CypherException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import repository.*;
@@ -25,6 +26,7 @@ public class ArchivesManageService {
     private UserTypeExtRepository userTypeExtRepository;
     @Inject
     private OptionValueRepository optionValueRepository;
+    private User userInfo;
 
 //    @Autowired
 //    public ArchivesManageService(DepartmentRepository departmentRepository) {
@@ -158,7 +160,7 @@ public class ArchivesManageService {
      * @param departmentId 所属部门id
      * @return
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Long createUser(String account, String userName, Long userTypeId, Long departmentId) {
         //TODO 不回滚
         Department department = new Department();
@@ -171,5 +173,9 @@ public class ArchivesManageService {
         Long userId = user.getId();
         userRepository.saveUserTypeAndDepartment(userId,userTypeId,departmentId);
         return userId;
+    }
+
+    public User getUserInfo(Long userId) {
+        return userRepository.findOne(userId);
     }
 }

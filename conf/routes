@@ -5,43 +5,45 @@
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
-GET     /testgenerate/test/:scaleCode/:code            controllers.ArchivesManageController.test(scaleCode:String, code:Integer)
+GET     /testgenerate/test/:scaleCode/:code            controllers.archiveManage.ArchivesManageController.test(scaleCode:String, code:Integer)
 
-GET     /testgenerate/test/:scaleCode2            controllers.ArchivesManageController.test2(scaleCode2:Integer)
+GET     /testgenerate/test/:scaleCode2            controllers.archiveManage.ArchivesManageController.test2(scaleCode2:Integer)
 
-GET     /department/saveDepartment/:name                       controllers.ArchivesManageController.saveDepartment(name:String)
+GET     /department/saveDepartment/:name                       controllers.archiveManage.ArchivesManageController.saveDepartment(name:String)
 
-GET     /department/deleteDepartment/:deptId                   controllers.ArchivesManageController.deleteDepartment(deptId:Long)
+GET     /department/deleteDepartment/:deptId                   controllers.archiveManage.ArchivesManageController.deleteDepartment(deptId:Long)
 
-GET     /department/getHeritanceRootDepartment                 controllers.ArchivesManageController.getHeritanceRootDepartment
+GET     /department/getHeritanceRootDepartment                 controllers.archiveManage.ArchivesManageController.getHeritanceRootDepartment
 
-GET     /department/addDepartment/:name/:parentId              controllers.ArchivesManageController.addDepartment(name:String,parentId:Long)
+GET     /department/addDepartment/:name/:parentId              controllers.archiveManage.ArchivesManageController.addDepartment(name:String,parentId:Long)
 
 #创建部门
-GET     /department/createDepartment/:name                     controllers.ArchivesManageController.createDepartment(name:String)
+GET     /department/createDepartment/:name                     controllers.archiveManage.ArchivesManageController.createDepartment(name:String)
 
 #移动部门到另一部门下
-GET     /department/moveDepartment/:movedDeptId/:toDeptId           controllers.ArchivesManageController.moveDepartment(movedDeptId:Long,toDeptId:Long)
+GET     /department/moveDepartment/:movedDeptId/:toDeptId           controllers.archiveManage.ArchivesManageController.moveDepartment(movedDeptId:Long,toDeptId:Long)
 
 #创建用户
-GET     /user/addUser/:name/:account                            controllers.ArchivesManageController.addUser(name:String,account:String)
+GET     /user/addUser/:name/:account                            controllers.archiveManage.ArchivesManageController.addUser(name:String,account:String)
 
 #添加用户到部门下
-GET     /user/addUserToDepartment/:userId/:departmentId         controllers.ArchivesManageController.addUserToDepartment(userId:Long,departmentId:Long)
+GET     /user/addUserToDepartment/:userId/:departmentId         controllers.archiveManage.ArchivesManageController.addUserToDepartment(userId:Long,departmentId:Long)
 
 #添加用户类型和扩展项
-POST     /user/addUserType                                      controllers.ArchivesManageController.addUserType
+POST     /user/addUserType                                      controllers.archiveManage.ArchivesManageController.addUserType
 
 #添加用户类型的页面
-GET     /user/addUserTypeHtml                                          controllers.ArchivesManageController.addUserTypeHtml
+GET     /user/addUserTypeHtml                                          controllers.archiveManage.ArchivesManageController.addUserTypeHtml
 
 #添加用户类型扩展的页面
-GET     /user/createUserTypeExtHtml                             controllers.ArchivesManageController.createUserTypeExtHtml
+GET     /user/createUserTypeExtHtml                             controllers.archiveManage.ArchivesManageController.createUserTypeExtHtml
 
 #添加用户类型选项
-POST     /user/createUserTypeExt                                 controllers.ArchivesManageController.createUserTypeExt
+POST     /user/createUserTypeExt                                 controllers.archiveManage.ArchivesManageController.createUserTypeExt
 
 #添加用户
-GET     /user/createUserHtml                                     controllers.ArchivesManageController.createUserHtml
+GET     /user/createUserHtml                                     controllers.archiveManage.ArchivesManageController.createUserHtml
 
-POST     /user/createUser                                       controllers.ArchivesManageController.createUser
+POST     /user/createUser                                       controllers.archiveManage.ArchivesManageController.createUser
+
+GET     /user/getUserInfo/:userId                                controllers.archiveManage.ArchivesManageController.getUserInfo(userId:Long)

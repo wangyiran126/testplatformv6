@@ -1,6 +1,7 @@
 package entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
@@ -21,13 +22,17 @@ public class Department {
     @GraphId
     Long departId;
 
+
     @Relationship(type="have",direction = Relationship.OUTGOING)
     Set<Department> subDepartments;
+
 
     @JsonIgnore
     @Relationship(type = "have",direction = Relationship.INCOMING)
     Department parentDepartment;
 
+
+    @JsonManagedReference
     @Relationship(type = "in",direction = Relationship.INCOMING)
     Set<User> users;
 
