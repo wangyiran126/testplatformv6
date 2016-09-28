@@ -12,22 +12,19 @@
 
     <script>
 
-          var parameters = {userTypeExtId:"",type:"",checkName:"",optionValues:[]};
+          var parameters = {name:"",type:"",optionValues:[]};
 //          parameters["name"] = "角色";
 //          parameters["type"] = "select";
 //          var options = [];
-          var  option1 = {name:"1星",value:"1"};
-          var  option2 = {name:"2星",value:"2"};
-          parameters["userTypeExtId"] = "26";
-          parameters["type"] = "checkbox";
-          parameters["checkName"] = "星级";
+//          var  option1 = {name:"战士",value:"1"};
+//          var  option2 = {name:"法师",value:"2"};
+          parameters["name"] = "年龄";
+          parameters["type"] = "text";
           var options = [];
-          options.push(option1);
-          options.push(option2);
           parameters["optionValues"] = options;
           $.ajax({
                       method: "POST",
-                      url: "/user/createUserTypeExtHave",
+                      url: "/user/addUserTypeOfUser",
                       data: JSON.stringify(parameters),
                       dataType: "json",
                       contentType:"application/json"

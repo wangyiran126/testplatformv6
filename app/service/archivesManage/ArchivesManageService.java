@@ -1,5 +1,6 @@
 package service.archivesManage;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import entity.*;
 import org.neo4j.ogm.exception.CypherException;
 import org.springframework.stereotype.Service;
@@ -26,8 +27,18 @@ public class ArchivesManageService {
     private UserTypeExtRepository userTypeExtRepository;
     @Inject
     private OptionValueRepository optionValueRepository;
-    private User userInfo;
-
+    @Inject
+    private CheckboxRepository checkboxRepository;
+    @Inject
+    private DoubleDateRepository doubleDateRepository;
+    @Inject
+    private RadioRepository radioRepository;
+    @Inject
+    private SelectRepository selectRepository;
+    @Inject
+    private SingleDateRepository singleDateRepository;
+    @Inject
+    private TextRepository textRepository;
 //    @Autowired
 //    public ArchivesManageService(DepartmentRepository departmentRepository) {
 //        this.departmentRepository = departmentRepository;
@@ -135,22 +146,22 @@ public class ArchivesManageService {
         return userType.getId();
     }
 
-    @Transactional
-    public Long createUserTypeExt(String name, String type, List<OptionValue> optionValues) {
-        optionValueRepository.save(optionValues);
-        List<Long> optionValuesIds = new ArrayList<>();
-        optionValues.forEach(t->{
-            optionValuesIds.add(t.getId());
-        });
-
-        UserTypeExt userTypeExt = new UserTypeExt();
-        userTypeExt.setName(name);
-        userTypeExt.setType(type);
-        userTypeExtRepository.save(userTypeExt);
-         userTypeExtRepository.saveHaveOption(userTypeExt.getId(),optionValuesIds);
-        UserTypeExt userTypeExt1 = userTypeExtRepository.save(userTypeExt);
-        return userTypeExt1.getId();
-    }
+//    @Transactional
+//    public Long createUserTypeExt(String name, String type, List<OptionValue> optionValues) {
+//        optionValueRepository.save(optionValues);
+//        List<Long> optionValuesIds = new ArrayList<>();
+//        optionValues.forEach(t->{
+//            optionValuesIds.add(t.getId());
+//        });
+//
+//        UserTypeExt userTypeExt = new UserTypeExt();
+//        userTypeExt.setName(name);
+//        userTypeExt.setType(type);
+//        userTypeExtRepository.save(userTypeExt);
+//         userTypeExtRepository.saveHaveOption(userTypeExt.getId(),optionValuesIds);
+//        UserTypeExt userTypeExt1 = userTypeExtRepository.save(userTypeExt);
+//        return userTypeExt1.getId();
+//    }
 
     /**
      * 创建用户
@@ -177,5 +188,48 @@ public class ArchivesManageService {
 
     public User getUserInfo(Long userId) {
         return userRepository.findOne(userId);
+    }
+
+    /**
+     * 创建用户类型和扩展项
+     * @param userTypeExtId
+     * @param type
+     * @param jsonNode
+     * @param checkName
+     */
+    @Transactional
+    public void createUserTypeExtHave(Long userTypeExtId, String type, JsonNode jsonNode, String checkName) {
+        //处理扩展的选项
+        if (UserTypeExt.RelationShip.CHECKBOX.getType().equals(type)){
+            List<OptionValue> optionValues = new ArrayList<>();
+            jsonNode.elements().forEachRemaining(t->{
+                String name = t.get("name").asText();
+                String value = t.get("value").asText();
+                OptionValue optionValue = new OptionValue();
+                optionValue.setName(name);
+                optionValue.setValue(value);
+                optionValues.add(optionValue);
+            });
+
+            optionValueRepository.save(optionValues);
+            List<Long> optionValueIds = new ArrayList<>();
+            optionValues.forEach(t->{
+                optionValueIds.add(t.getId());
+            });
+            Checkbox checkbox = new Checkbox();
+            checkbox.setName(checkName);
+            checkboxRepository.save(checkbox);
+            Long checkboxId = checkbox.getId();
+            checkboxRepository.saveOption(checkboxId,optionValueIds);
+            userTypeExtRepository.saveCheckbox(userTypeExtId,checkboxId);
+        }
+    }
+
+    @Transactional
+    public Long createUserTypeExt(String userTypeExtName) {
+        UserTypeExt userTypeExt = new UserTypeExt();
+        userTypeExt.setName(userTypeExtName);
+        userTypeExtRepository.save(userTypeExt);
+        return userTypeExt.getId();
     }
 }

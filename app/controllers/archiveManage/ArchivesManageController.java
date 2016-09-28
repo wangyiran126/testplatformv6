@@ -2,16 +2,9 @@ package controllers.archiveManage;
 
 import collectivereport.base.StatisticService;
 import collectivereport.factory.ServiceFactory;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.databind.ser.FilterProvider;
-import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
-import entity.Department;
-import entity.OptionValue;
-import entity.User;
+import entity.*;
 import play.libs.Json;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
@@ -20,9 +13,7 @@ import play.twirl.api.Content;
 import service.archivesManage.ArchivesManageService;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Created by wangyiran on 29/8/2016.
@@ -145,6 +136,7 @@ public class ArchivesManageController extends Controller {
 
     /**
      * 添加用户类型和扩展项
+     * TODO
      * @return
      */
     @BodyParser.Of(BodyParser.Json.class)
@@ -164,22 +156,26 @@ public class ArchivesManageController extends Controller {
     }
 
     /**
-     * 创建一个用户扩展选项
+     * 创建一个用户扩展选项关系
+     * TODO
      * @return
      */
     @BodyParser.Of(BodyParser.Json.class)
-    public Result createUserTypeExt(){
+    public Result createUserTypeExtHave(){
         JsonNode json = request().body().asJson();
-        //扩展项名
-        String userTypeName = json.get("name").asText();
+        //用户扩展项名
+        Long userTypeExtId = json.get("userTypeExtId").asLong();
         //扩展项类型
         String type = json.get("type").asText();
         //选项
         JsonNode jsonNode = json.get("optionValues");
-        List<OptionValue> optionValues = OptionValue.create(jsonNode);
-        Long userTypeExtId = archivesManageService.createUserTypeExt(userTypeName,type,optionValues);
-        JsonNode jsonNode1 = Json.toJson(userTypeExtId);
-        return ok(jsonNode1);
+        String checkName = json.get("checkName").asText();
+//        List<OptionValue> optionValues = OptionValue.create(jsonNode);
+//        Long userTypeExtId = archivesManageService.createUserTypeExt(userTypeName,type,optionValues);
+//        JsonNode jsonNode1 = Json.toJson(userTypeExtId);
+//        return ok(jsonNode1);
+        archivesManageService.createUserTypeExtHave(userTypeExtId,type,jsonNode,checkName);
+        return ok();
     }
 
     /**
@@ -232,7 +228,49 @@ public class ArchivesManageController extends Controller {
     public Result getUserInfo(Long userId){
         User userInfo = archivesManageService.getUserInfo(userId);
         JsonNode jsonNode1 = Json.toJson(userInfo);
+        return ok();
+    }
+
+    /**
+     * 添加用户的用户类型和扩展信息页面
+     * @return
+     */
+    public Result addUserTypeOfUserHtml(){
+        Content html = views.html.archiveManage.addUserTypeOfUserHtml.render();
+        return ok(html);
+    }
+
+    public Result createUserTypeExt(String userTypeExtName){
+        Long extId = archivesManageService.createUserTypeExt(userTypeExtName);
+        JsonNode jsonNode1 = Json.toJson(extId);
         return ok(jsonNode1);
     }
 
+//    /**
+//     * 添加用户的用户类型和扩展信息
+//     * @return
+//     */
+//    @BodyParser.Of(BodyParser.Json.class)
+//    public Result addUserTypeOfUser(){
+//
+//        JsonNode json = request().body().asJson();
+//        //用户类型id
+//        Long userTypeId = json.get("userTypeId").asLong();
+//        JsonNode userTypeInfo = json.get("userTypeInfo");
+//
+//        userTypeInfo.elements().forEachRemaining(
+//                t->{
+//                   Long extId = t.get("extId").asLong();
+//                    t.get("optionName");
+//                }
+//        );
+//        Map<Long,List<OptionValue>> selected = new HashMap<>();
+//
+//        //选项
+//        JsonNode jsonNode = json.get("optionValues");
+//        List<OptionValue> optionValues = OptionValue.create(jsonNode);
+//    }
+//    public Result addUserType
+
+    //TODO 怎么把用户类型复制到用户
 }

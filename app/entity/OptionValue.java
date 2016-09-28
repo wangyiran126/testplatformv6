@@ -5,6 +5,7 @@ package entity;
  */
 
 import com.fasterxml.jackson.databind.JsonNode;
+import entity.annotation.Unique;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 
@@ -16,12 +17,24 @@ import java.util.List;
  */
 @NodeEntity
 public class OptionValue {
-    @GraphId
-    private Long id;
     //选项名
     private String name;
-    //选项值
+    //选项值 唯一
+    @Unique
     private String value;
+    @GraphId
+    private Long id;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public OptionValue() {
+    }
 
     public OptionValue(String name, String value) {
         this.name = name;
@@ -42,14 +55,6 @@ public class OptionValue {
 
     public void setValue(String value) {
         this.value = value;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public static List<OptionValue> create(JsonNode jsonNode) {

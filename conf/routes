@@ -38,12 +38,14 @@ GET     /user/addUserTypeHtml                                          controlle
 #添加用户类型扩展的页面
 GET     /user/createUserTypeExtHtml                             controllers.archiveManage.ArchivesManageController.createUserTypeExtHtml
 
-#添加用户类型选项
-POST     /user/createUserTypeExt                                 controllers.archiveManage.ArchivesManageController.createUserTypeExt
+#添加用户类型扩展项关系
+POST     /user/createUserTypeExtHave                                 controllers.archiveManage.ArchivesManageController.createUserTypeExtHave
+
+GET     /user/createUserTypeExt/:userTypeExtName                 controllers.archiveManage.ArchivesManageController.createUserTypeExt(userTypeExtName:String)
 
 #添加用户
 GET     /user/createUserHtml                                     controllers.archiveManage.ArchivesManageController.createUserHtml
 
 POST     /user/createUser                                       controllers.archiveManage.ArchivesManageController.createUser
-
+#获取用户信息
 GET     /user/getUserInfo/:userId                                controllers.archiveManage.ArchivesManageController.getUserInfo(userId:Long)

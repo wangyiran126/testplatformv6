@@ -15,18 +15,46 @@ public class UserTypeExt {
     private Long id;
     //用户类型名
     private String name;
-    //种类
-    private String type;
-    //选项和值
-    @Relationship(type = "have",direction = Relationship.OUTGOING)
-    private List<OptionValue> options;
 
-    public List<OptionValue> getOptions() {
-        return options;
+    //文本选项
+    @Relationship(type = "text",direction = Relationship.OUTGOING)
+    private List<Text> textOptions;
+    //单选项
+    @Relationship(type = "singleRadio",direction = Relationship.OUTGOING)
+    private List<Radio> singleRadios;
+
+    //单选项
+    @Relationship(type = "checkbox",direction = Relationship.OUTGOING)
+    private List<Checkbox> checkboxes;
+
+    @Relationship(type = "select")
+    private List<Select> selects;
+
+    @Relationship(type = "singleDate",direction = Relationship.OUTGOING)
+    private List<SingleDate> singleDates;
+
+    @Relationship(type = "doubleDate",direction = Relationship.OUTGOING)
+    private List<DoubleDate> doubleDates;
+
+    public enum RelationShip{
+        TEXT("text"),SINGLERADIO("singleRadio"),CHECKBOX("checkbox"),SELECT("select"),SINGLEDATES("singleDate"),DOUBLEDATES("doubleDate");
+        private String type;
+
+        RelationShip(String type) {
+            this.type = type;
+        }
+
+        public String getType() {
+            return type;
+        }
     }
 
-    public void setOptions(List<OptionValue> options) {
-        this.options = options;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -37,20 +65,51 @@ public class UserTypeExt {
         this.name = name;
     }
 
-
-    public String getType() {
-        return type;
+    public List<Text> getTextOptions() {
+        return textOptions;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setTextOptions(List<Text> textOptions) {
+        this.textOptions = textOptions;
     }
 
-    public Long getId() {
-        return id;
+    public List<Radio> getSingleRadios() {
+        return singleRadios;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setSingleRadios(List<Radio> singleRadios) {
+        this.singleRadios = singleRadios;
+    }
+
+    public List<Checkbox> getCheckboxes() {
+        return checkboxes;
+    }
+
+    public void setCheckboxes(List<Checkbox> checkboxes) {
+        this.checkboxes = checkboxes;
+    }
+
+    public List<Select> getSelects() {
+        return selects;
+    }
+
+    public void setSelects(List<Select> selects) {
+        this.selects = selects;
+    }
+
+    public List<SingleDate> getSingleDates() {
+        return singleDates;
+    }
+
+    public void setSingleDates(List<SingleDate> singleDates) {
+        this.singleDates = singleDates;
+    }
+
+    public List<DoubleDate> getDoubleDates() {
+        return doubleDates;
+    }
+
+    public void setDoubleDates(List<DoubleDate> doubleDates) {
+        this.doubleDates = doubleDates;
     }
 }

@@ -5,6 +5,7 @@ import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -20,6 +21,9 @@ public class UserType {
     @Relationship(type = "have",direction = Relationship.OUTGOING)
     Set<UserTypeExt> userTypeExts = new HashSet<>();
 
+
+
+
     public String getUserTypeName() {
         return userTypeName;
     }
@@ -28,13 +32,6 @@ public class UserType {
         this.userTypeName = userTypeName;
     }
 
-    public Set<UserTypeExt> getUserTypeExts() {
-        return userTypeExts;
-    }
-
-    public void setUserTypeExts(Set<UserTypeExt> userTypeExts) {
-        this.userTypeExts = userTypeExts;
-    }
 
     public Long getId() {
         return id;
