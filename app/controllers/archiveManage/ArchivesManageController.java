@@ -273,4 +273,20 @@ public class ArchivesManageController extends Controller {
 //    public Result addUserType
 
     //TODO 怎么把用户类型复制到用户
+
+    /**
+     * 添加用户的用户类型扩展信息
+     * @return
+     */
+    public Result addUserTypeExtOfUser(){
+        JsonNode json = request().body().asJson();
+        //用户类型扩展id
+        Long userTypeExtId = json.get("userTypeExtId").asLong();
+        //扩展类型
+        String type = json.get("type").asText();
+        //用户类型id
+        Long userTypeId = json.get("userTypeId").asLong();
+        //部门id
+        Long departmentId = json.get("departmentId").asLong();
+    }
 }

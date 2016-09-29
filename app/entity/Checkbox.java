@@ -16,8 +16,6 @@ public class Checkbox {
     //选项
     @Relationship(type = "have",direction = Relationship.OUTGOING)
     List<OptionValue> optionValues;
-    //选中的值
-    String[] value;
     @GraphId
     private Long id;
 
@@ -45,11 +43,4 @@ public class Checkbox {
         this.optionValues = optionValues;
     }
 
-    public String[] getValue() {
-        return value;
-    }
-
-    public void setValue(String[] value) {
-        this.value = value;
-    }
 }

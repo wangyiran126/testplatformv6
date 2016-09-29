@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import entity.annotation.Unique;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
+import org.neo4j.ogm.annotation.Relationship;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,18 @@ public class OptionValue {
     private String value;
     @GraphId
     private Long id;
+
+    //选了这个选项的用户
+    @Relationship(type = "fill",direction = Relationship.INCOMING)
+    private List<User> selected;
+
+    public List<User> getSelected() {
+        return selected;
+    }
+
+    public void setSelected(List<User> selected) {
+        this.selected = selected;
+    }
 
     public Long getId() {
         return id;
