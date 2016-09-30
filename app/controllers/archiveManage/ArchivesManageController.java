@@ -280,13 +280,16 @@ public class ArchivesManageController extends Controller {
      */
     public Result addUserTypeExtOfUser(){
         JsonNode json = request().body().asJson();
-        //用户类型扩展id
-        Long userTypeExtId = json.get("userTypeExtId").asLong();
-        //扩展类型
+//        Long userTypeId = json.get("userTypeId").asLong();
+//        //用户类型扩展id
+//        Long userTypeExtId = json.get("userTypeExtId").asLong();
+//        //扩展类型
         String type = json.get("type").asText();
-        //用户类型id
-        Long userTypeId = json.get("userTypeId").asLong();
-        //部门id
-        Long departmentId = json.get("departmentId").asLong();
+//        Long valueId = json.get("valueId").asLong();
+        JsonNode jsonNode = json.get("value");
+        Long userId = json.get("userId").asLong();
+
+        archivesManageService.addUserTypeExtOfUser(type,jsonNode,userId);
+
     }
 }

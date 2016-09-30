@@ -13,11 +13,11 @@ import java.util.List;
  */
 public interface UserTypeExtRepository extends GraphRepository<UserTypeExt> {
     /**
-     * 存储checkbox关系
+     * 存储用户扩展类型和checkbox关系
      * @param userTypeExtId
      * @param checkboxId
      */
-    @Query("match(ute:UserTypeExt),(cb:Checkbox) where ID(ute) = {userTypeExtId} and ID(cb) = {checkboxId} create (ute)-[:checkbox]->(cb)")
+    @Query("match(ute:UserTypeExt),(cb:Checkbox) where ID(ute) = {userTypeExtId} and ID(cb) = {checkboxId} create (ute)-[:have]->(cb)")
     void saveCheckbox(@Param("userTypeExtId")Long userTypeExtId, @Param("checkboxId")Long checkboxId);
 
 

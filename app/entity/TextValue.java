@@ -9,6 +9,7 @@ import org.neo4j.ogm.annotation.Relationship;
  */
 @NodeEntity
 public class TextValue {
+    @Relationship(direction = "fill",type = Relationship.INCOMING)
     private User user;
     private String value;
     @Relationship(direction = "fill",type = Relationship.OUTGOING)

@@ -17,23 +17,23 @@ public class UserTypeExt {
     private String name;
 
     //文本选项
-    @Relationship(type = "text",direction = Relationship.OUTGOING)
+    @Relationship(type = "have",direction = Relationship.OUTGOING)
     private List<Text> textOptions;
     //单选项
-    @Relationship(type = "singleRadio",direction = Relationship.OUTGOING)
+    @Relationship(type = "have",direction = Relationship.OUTGOING)
     private List<Radio> singleRadios;
 
     //单选项
-    @Relationship(type = "checkbox",direction = Relationship.OUTGOING)
+    @Relationship(type = "have",direction = Relationship.OUTGOING)
     private List<Checkbox> checkboxes;
 
-    @Relationship(type = "select")
+    @Relationship(type = "have")
     private List<Select> selects;
 
-    @Relationship(type = "singleDate",direction = Relationship.OUTGOING)
+    @Relationship(type = "have",direction = Relationship.OUTGOING)
     private List<SingleDate> singleDates;
 
-    @Relationship(type = "doubleDate",direction = Relationship.OUTGOING)
+    @Relationship(type = "have",direction = Relationship.OUTGOING)
     private List<DoubleDate> doubleDates;
 
     public enum RelationShip{
