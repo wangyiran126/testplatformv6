@@ -35,6 +35,8 @@ libraryDependencies += "com.fasterxml.jackson.core" % "jackson-core" % "2.8.2"
 // https://mvnrepository.com/artifact/org.springframework/spring-test
 libraryDependencies += "org.springframework" % "spring-test" % "4.3.3.RELEASE"
 
+libraryDependencies += "org.openjdk.jmh" % "jmh-generator-annprocess" % "1.15"
+
 //性能测试工具
 libraryDependencies += "org.openjdk.jmh" % "jmh-core" % "1.14.1"
 

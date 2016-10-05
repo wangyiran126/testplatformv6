@@ -61,26 +61,6 @@ public class ArchivesManageController extends Controller {
         return ok();
     }
 
-    /**
-     * 获取部门结构
-     * @return
-     */
-    public Result getHeritanceRootDepartment(){
-        Department departments = archivesManageService.getHeritanceRootDepartment();
-//        ObjectMapper mapper = new ObjectMapper();
-//        FilterProvider filterProvider = new SimpleFilterProvider().addFilter("subDepartmentFilter"
-//        , SimpleBeanPropertyFilter.filterOutAllExcept("parentDepartment","users,subDepartments"));
-//        mapper.setFilterProvider(filterProvider);
-////        JsonNode jsonNode = mapper.valueToTree(departments);
-//        try {
-//            String json = mapper.writeValueAsString(departments);
-//            return ok(json);
-//        } catch (JsonProcessingException e) {
-//            e.printStackTrace();
-//        }
-        JsonNode jsonNode = Json.toJson(departments);
-        return ok(jsonNode);
-    }
 
     /**
      * 添加部门
@@ -290,6 +270,6 @@ public class ArchivesManageController extends Controller {
         Long userId = json.get("userId").asLong();
 
         archivesManageService.addUserTypeExtOfUser(type,jsonNode,userId);
-
+            return null;
     }
 }

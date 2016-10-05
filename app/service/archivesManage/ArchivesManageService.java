@@ -41,42 +41,11 @@ public class ArchivesManageService {
     private TextRepository textRepository;
     @Inject
     private TextValueRepository textValueRepository;
-//    @Autowired
-//    public ArchivesManageService(DepartmentRepository departmentRepository) {
-//        this.departmentRepository = departmentRepository;
-//    }
-
-
-//    @Autowired
-//    public void setDepartmentRepository(DepartmentRepository departmentRepository) {
-//        this.departmentRepository = departmentRepository;
-//    }
 
     public DepartmentRepository getDepartmentRepository() {
         return departmentRepository;
     }
 
-
-//    public Department getDepartment(Long deptId) {
-//        List<Department> departments = departmentRepository.getParentDepartment(deptId);
-//        Optional<Department> optional =  departments.stream().filter(d -> d.getDepartId().equals(deptId)).findFirst();
-//        Department parentDepartment = null;
-//        Department department = null;
-//        if (optional.isPresent()){
-//             department = optional.get();
-//            Integer depth = departments.size();
-//                    while (depth >= 0){
-//                        if (parentDepartment == null)
-//                        parentDepartment =department.getParentDepartments();
-//                        else parentDepartment = parentDepartment.getParentDepartments();
-//                        if (depth == 0){
-//                            parentDepartment.setParentDepartments(null);
-//                        }
-//                        depth--;
-//                    }
-//        }
-//        return department;
-//    }
 
     @Transactional
     public Long saveDepartment(String name) {
@@ -134,7 +103,7 @@ public class ArchivesManageService {
     /**
      * 添加用户类型和扩展项
      * @param userTypeName
-     * @param userTypeExts
+     * @param userTypeExtsIds
      * @return
      */
     @Transactional
@@ -148,22 +117,6 @@ public class ArchivesManageService {
         return userType.getId();
     }
 
-//    @Transactional
-//    public Long createUserTypeExt(String name, String type, List<OptionValue> optionValues) {
-//        optionValueRepository.save(optionValues);
-//        List<Long> optionValuesIds = new ArrayList<>();
-//        optionValues.forEach(t->{
-//            optionValuesIds.add(t.getId());
-//        });
-//
-//        UserTypeExt userTypeExt = new UserTypeExt();
-//        userTypeExt.setName(name);
-//        userTypeExt.setType(type);
-//        userTypeExtRepository.save(userTypeExt);
-//         userTypeExtRepository.saveHaveOption(userTypeExt.getId(),optionValuesIds);
-//        UserTypeExt userTypeExt1 = userTypeExtRepository.save(userTypeExt);
-//        return userTypeExt1.getId();
-//    }
 
     /**
      * 创建用户
