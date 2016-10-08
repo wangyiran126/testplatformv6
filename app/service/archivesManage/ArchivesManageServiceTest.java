@@ -10,6 +10,10 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by wangyiran on 30/9/2016.
  */
+
+/**
+ * 性能测试
+ */
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
 @BenchmarkMode(Mode.AverageTime)
 @OperationsPerInvocation(ArchivesManageServiceTest.times)

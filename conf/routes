@@ -13,7 +13,6 @@ GET     /department/saveDepartment/:name                       controllers.archi
 
 GET     /department/deleteDepartment/:deptId                   controllers.archiveManage.ArchivesManageController.deleteDepartment(deptId:Long)
 
-GET     /department/getHeritanceRootDepartment                 controllers.archiveManage.ArchivesManageController.getHeritanceRootDepartment
 
 GET     /department/addDepartment/:name/:parentId              controllers.archiveManage.ArchivesManageController.addDepartment(name:String,parentId:Long)
 
