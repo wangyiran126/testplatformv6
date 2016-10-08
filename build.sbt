@@ -40,6 +40,9 @@ libraryDependencies += "org.openjdk.jmh" % "jmh-generator-annprocess" % "1.15"
 // https://mvnrepository.com/artifact/org.springframework/spring-test
 libraryDependencies += "org.springframework" % "spring-test" % "4.3.3.RELEASE"
 
+// https://mvnrepository.com/artifact/org.mockito/mockito-core
+libraryDependencies += "org.mockito" % "mockito-core" % "2.1.0"
+
 //性能测试工具
 libraryDependencies += "org.openjdk.jmh" % "jmh-core" % "1.14.1"
 
