@@ -12,7 +12,7 @@ public class TextValue {
     @Relationship(direction = "fill",type = Relationship.INCOMING)
     private User user;
     private String value;
-    @Relationship(direction = "fill",type = Relationship.OUTGOING)
+    @Relationship(direction = "have",type = Relationship.INCOMING)
     private Text text;
     @GraphId
     private Long id;

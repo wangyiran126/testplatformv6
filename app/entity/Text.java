@@ -13,7 +13,7 @@ import java.util.List;
 public class Text {
     //选项名
     String name;
-    @Relationship(direction = "fill",type = Relationship.INCOMING)
+    @Relationship(direction = "have",type = Relationship.OUTGOING)
     List<TextValue> textValues;
 
     @GraphId

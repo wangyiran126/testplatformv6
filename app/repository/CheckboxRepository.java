@@ -24,6 +24,6 @@ public interface CheckboxRepository extends GraphRepository<Checkbox>{
      * @param checkIds
      * @param userId
      */
-    @Query("match (u:User),(ov:OptionValue) where ID(u) = {userId} and ID(ov) = {checkIds} create (u)-[:fill]->(ck)")
-    void createChecked(List<Long> checkIds, Long userId);
+    @Query("match (u:User),(ov:OptionValue) where ID(u) = {userId} and ID(ov) = {checkIds} create (u)-[:fill]->(ov)")
+    void createChecked(@Param("checkIds") List<Long> checkIds, @Param("userId") Long userId);
 }

@@ -1,6 +1,7 @@
 package repository;
 
 import entity.OptionValue;
+import entity.User;
 import entity.UserTypeExt;
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.GraphRepository;
@@ -19,6 +20,15 @@ public interface UserTypeExtRepository extends GraphRepository<UserTypeExt> {
      */
     @Query("match(ute:UserTypeExt),(cb:Checkbox) where ID(ute) = {userTypeExtId} and ID(cb) = {checkboxId} create (ute)-[:have]->(cb)")
     void saveCheckbox(@Param("userTypeExtId")Long userTypeExtId, @Param("checkboxId")Long checkboxId);
+
+    @Query("match(ute:UserTypeExt),(t:Text) where ID(ute) = {userTypeExtId} and ID(t) = {textId} create (ute)-[:have]->(t)")
+    void saveText(@Param("userTypeExtId") Long userTypeExtId, @Param("textId") Long textId);
+
+    @Query("match (u:User)-[:fill]->(ov:OptionValue),(u)-[:fill]->(tv:TextValue) where ID(ov) in {optionValueIds} and tv.value in {textValue} return u")
+    List<User> filterUserType(@Param("textValue") List<String> textValue, @Param("optionValueIds") List<Long> optionValueIds);
+
+    @Query("match (ute:UserTypeExt),(r:Radio) where ID(r) = {radioId} and ID(ute) in {userTypeExtId} create (ute)-[:have]->(r)")
+    void saveRadio(@Param("userTypeExtId") Long userTypeExtId,@Param("radioId") Long radioId);
 
 
     /**

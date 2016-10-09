@@ -3,6 +3,7 @@ package controllers.archiveManage;
 import collectivereport.base.StatisticService;
 import collectivereport.factory.ServiceFactory;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import entity.*;
 import play.libs.Json;
@@ -150,11 +151,9 @@ public class ArchivesManageController extends Controller {
         //选项
         JsonNode jsonNode = json.get("optionValues");
         String checkName = json.get("checkName").asText();
-//        List<OptionValue> optionValues = OptionValue.create(jsonNode);
-//        Long userTypeExtId = archivesManageService.createUserTypeExt(userTypeName,type,optionValues);
-//        JsonNode jsonNode1 = Json.toJson(userTypeExtId);
-//        return ok(jsonNode1);
-        archivesManageService.createUserTypeExtHave(userTypeExtId,type,jsonNode,checkName);
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, String> params = mapper.convertValue(jsonNode, Map.class);
+        archivesManageService.createUserTypeExtHave(userTypeExtId,type,params,checkName);
         return ok();
     }
 
@@ -226,31 +225,6 @@ public class ArchivesManageController extends Controller {
         return ok(jsonNode1);
     }
 
-//    /**
-//     * 添加用户的用户类型和扩展信息
-//     * @return
-//     */
-//    @BodyParser.Of(BodyParser.Json.class)
-//    public Result addUserTypeOfUser(){
-//
-//        JsonNode json = request().body().asJson();
-//        //用户类型id
-//        Long userTypeId = json.get("userTypeId").asLong();
-//        JsonNode userTypeInfo = json.get("userTypeInfo");
-//
-//        userTypeInfo.elements().forEachRemaining(
-//                t->{
-//                   Long extId = t.get("extId").asLong();
-//                    t.get("optionName");
-//                }
-//        );
-//        Map<Long,List<OptionValue>> selected = new HashMap<>();
-//
-//        //选项
-//        JsonNode jsonNode = json.get("optionValues");
-//        List<OptionValue> optionValues = OptionValue.create(jsonNode);
-//    }
-//    public Result addUserType
 
     //TODO 怎么把用户类型复制到用户
 
@@ -268,8 +242,10 @@ public class ArchivesManageController extends Controller {
 //        Long valueId = json.get("valueId").asLong();
         JsonNode jsonNode = json.get("value");
         Long userId = json.get("userId").asLong();
+        ObjectMapper mapper = new ObjectMapper();
 
-        archivesManageService.addUserTypeExtOfUser(type,jsonNode,userId);
+        Map<Object, Object> params = mapper.convertValue(jsonNode, Map.class);
+        archivesManageService.addUserTypeExtOfUser(type,params,userId);
             return null;
     }
 }

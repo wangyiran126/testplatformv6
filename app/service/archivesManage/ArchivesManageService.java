@@ -10,6 +10,7 @@ import repository.*;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -112,11 +113,22 @@ public class ArchivesManageService {
         UserType userType = new UserType();
         userType.setUserTypeName(userTypeName);
         userTypeRepository.save(userType);
-        //TODO 保持用户类型有用户扩展类型关系
+        //保持用户类型有用户扩展类型关系
         userTypeRepository.saveHaveUserTypeExt(userType.getId(),userTypeExtsIds);
         return userType.getId();
     }
 
+    /**
+     * 添加用户类型和扩展项
+     * @param userTypeId
+     * @param userTypeExtsIds
+     * @return
+     */
+    @Transactional
+    public void addUserType(Long userTypeId, List<Long> userTypeExtsIds) {
+        //保持用户类型有用户扩展类型关系
+        userTypeRepository.saveHaveUserTypeExt(userTypeId,userTypeExtsIds);
+    }
 
     /**
      * 创建用户
@@ -149,30 +161,15 @@ public class ArchivesManageService {
      * 创建用户类型和扩展项
      * @param userTypeExtId
      * @param type
-     * @param jsonNode
+     * @param params
      * @param checkName
      */
     @Transactional
-    public void createUserTypeExtHave(Long userTypeExtId, String type, JsonNode jsonNode, String checkName) {
+    public void createUserTypeExtHave(Long userTypeExtId, String type, Map<String,String> params, String checkName) {
         //处理扩展的选项
         if (UserTypeExt.RelationShip.CHECKBOX.getType().equals(type)){//如果是checkbox
-            //存储选项对象
-            List<OptionValue> optionValues = new ArrayList<>();
-            jsonNode.elements().forEachRemaining(t->{
-                String name = t.get("name").asText();//checkbox名
-                String value = t.get("value").asText();//checkbox值
-                OptionValue optionValue = new OptionValue();
-                optionValue.setName(name);
-                optionValue.setValue(value);
-                optionValues.add(optionValue);
-            });
-
-            optionValueRepository.save(optionValues);
-            List<Long> optionValueIds = new ArrayList<>();
-            optionValues.forEach(t->{
-                optionValueIds.add(t.getId());
-            });
-
+            //存储选项
+            List<Long> optionValueIds = saveOptionValues(params);
             //存储checkbox对象
             Checkbox checkbox = new Checkbox();
             checkbox.setName(checkName);
@@ -182,7 +179,38 @@ public class ArchivesManageService {
             //存储关系
             checkboxRepository.saveOption(checkboxId,optionValueIds);
             userTypeExtRepository.saveCheckbox(userTypeExtId,checkboxId);
+        }else if (UserTypeExt.RelationShip.TEXT.getType().equals(type)){
+            Text text  = new Text();
+            text.setName(checkName);
+            text = textRepository.save(text);
+            userTypeExtRepository.saveText(userTypeExtId,text.getId());
+
+        }else if (UserTypeExt.RelationShip.SINGLERADIO.getType().equals(type)){
+            List<Long> optionValueIds = saveOptionValues(params);
+            Radio radio = new Radio();
+            radio.setName(checkName);
+            radioRepository.save(radio);
+            //存储radio 选项关系
+            userTypeExtRepository.saveRadio(userTypeExtId,radio.getId());
         }
+    }
+
+    private List<Long> saveOptionValues(Map<String, String> params) {
+        //存储选项对象
+        List<OptionValue> optionValues = new ArrayList<>();
+        params.forEach((name,value)->{
+            OptionValue optionValue = new OptionValue();
+            optionValue.setName(name);
+            optionValue.setValue(value);
+            optionValues.add(optionValue);
+        });
+
+        optionValueRepository.save(optionValues);
+        List<Long> optionValueIds = new ArrayList<>();
+        optionValues.forEach(t->{
+            optionValueIds.add(t.getId());
+        });
+        return optionValueIds;
     }
 
     @Transactional
@@ -196,26 +224,31 @@ public class ArchivesManageService {
     /**
      * 创建人的选择
      * @param type
-     * @param jsonNode
+     * @param params
      * @param userId
      */
-    public void addUserTypeExtOfUser(String type, JsonNode jsonNode, Long userId) {
+    public void addUserTypeExtOfUser(String type, Map<Object,Object> params, Long userId) {
         if (UserTypeExt.RelationShip.CHECKBOX.getType().equals(type)){//如果是check
             //获取checkbox选中的id
             List<Long> checkIds = new ArrayList<>();
-            jsonNode.get("optionValueIds").elements().forEachRemaining(
-                    t->{
-                       Long checkId =  t.get("checkedId").asLong();
-                        checkIds.add(checkId);
+            params.forEach(
+                    (id,value)->{
+                        checkIds.add((Long) id);
                     }
             );
             checkboxRepository.createChecked(checkIds,userId);
         }else if (UserTypeExt.RelationShip.TEXT.getType().equals(type)){//如果是文本选项
-            //text选项id
-            Long textId = jsonNode.get("testId").asLong();
-            //text填入值
-            String value = jsonNode.get("value").asText();
-            textValueRepository.create(textId,value,userId);
+            params.forEach(
+                    (testId,value)->{
+                        textValueRepository.create((Long)testId,(String) value,userId);
+                    }
+            );
+
         }
+    }
+
+    public List<User> filterUserType(List<String> textValue, List<Long> checkboxIds) {
+        List<User> users = userTypeExtRepository.filterUserType(textValue,checkboxIds);
+        return users;
     }
 }

@@ -14,11 +14,18 @@ public class Radio {
     //选项
     @Relationship(type = "have",direction = Relationship.OUTGOING)
     List<OptionValue> optionValues;
-    //选中的值
-    String value;
-
+    //radio名称
+    String name;
     @GraphId
     private Long id;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public Long getId() {
         return id;
@@ -34,13 +41,5 @@ public class Radio {
 
     public void setOptionValues(List<OptionValue> optionValues) {
         this.optionValues = optionValues;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
     }
 }

@@ -2,6 +2,8 @@ package service.archivesManage;
 
 import entity.Checkbox;
 import entity.Department;
+import entity.User;
+import entity.UserTypeExt;
 import modules.AppConfig;
 import org.codehaus.jackson.JsonNode;
 import org.junit.Assert;
@@ -14,6 +16,9 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.*;
+
 import  static org.mockito.Mockito.*;
 /**
  * Created by wangyiran on 8/10/2016.
@@ -24,13 +29,12 @@ public class SpringTest {
     @Autowired
     private ArchivesManageService archivesManageService;
 
-    @Mock
-    private JsonNode checkboxMock;
 
     @Before
     public void init(){
 //        MockitoAnnotations.initMocks(this);
-        checkboxMock =  Mockito.mock(JsonNode.class);
+//        checkboxMock =  Mockito.mock(Map.class);
+
 
     }
 
@@ -42,17 +46,53 @@ public class SpringTest {
 
     @Test
     public void testcreateUserTypeExtHave(){
-//        doReturn("选项1").when(checkboxMock.get("name"));
-//        doReturn("1").when(checkboxMock.get("value"));
-//        doReturn("选项2").when(checkboxMock.get("name"));
-//        doReturn("2").when(checkboxMock.get("value"));
+        //添加checkbox用户扩展信息
+//        Map checkboxMock = new HashMap<>();
+//        checkboxMock.put("男","1");
+//        checkboxMock.put("女","0");
+//        archivesManageService.createUserTypeExtHave(13l, UserTypeExt.RelationShip.CHECKBOX.getType(),checkboxMock,"性别");
+        //添加text用户扩展信息
+//        archivesManageService.createUserTypeExtHave(13l, UserTypeExt.RelationShip.TEXT.getType(),null,"说明");
+        //添加radio用户扩展信息
+        Map radioMap = new HashMap<>();
+        radioMap.put("90后","1");
+        radioMap.put("80后","0");
+        archivesManageService.createUserTypeExtHave(13l,UserTypeExt.RelationShip.SINGLERADIO.getType(),radioMap,"年龄范围");
+    }
 
-        when(checkboxMock.get("name").asText()).thenReturn("选项1").thenReturn("选项2");
-        when(checkboxMock.get("value").asText()).thenReturn("1").thenReturn("2");
+//    @Test
+//    public void testaddUserType(){
+//        archivesManageService.addUserType("用户类型2", Arrays.asList(13l));
+//    }
 
-        Assert.assertEquals("选项1",checkboxMock.get("name"));
-        Assert.assertEquals("1",checkboxMock.get("value"));
-        Assert.assertEquals("选项2",checkboxMock.get("name"));
-        Assert.assertEquals("2",checkboxMock.get("value"));
+    @Test
+    public void testaddUserTypeExtOfUser(){
+//        Map<Object,Object> params = new HashMap<>();
+//        params.put(35l,null);
+//        archivesManageService.addUserTypeExtOfUser(UserTypeExt.RelationShip.CHECKBOX.getType(),params,15l);
+        Map<Object,Object> params = new HashMap<>();
+        params.put(36l,"南无阿弥陀佛");
+        archivesManageService.addUserTypeExtOfUser(UserTypeExt.RelationShip.TEXT.getType(),params,115l);
+    }
+
+    @Test
+    public void testaddUserType(){
+         archivesManageService.addUserType(13l, Arrays.asList(51l));
+    }
+
+    @Test
+    public void testcreateUserTypeExt(){
+        archivesManageService.createUserTypeExt("年龄范围");
+    }
+
+    /**
+     * 测试过滤用户类型选项
+     */
+    @Test
+    public void testfilterUserType(){
+        List<String> textValue = Arrays.asList("南无阿弥陀佛");
+        List<Long> checkboxIds = Arrays.asList(119l,30l);
+        List<User> filteredUser = archivesManageService.filterUserType(textValue,checkboxIds);
+        Assert.assertTrue(filteredUser.size()>0);
     }
 }
