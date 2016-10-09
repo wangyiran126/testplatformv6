@@ -29,12 +29,20 @@ public class SpringTest {
     @Autowired
     private ArchivesManageService archivesManageService;
 
-
+    @Mock
+    private JsonNode jsonNode;
     @Before
     public void init(){
-//        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.initMocks(this);
 //        checkboxMock =  Mockito.mock(Map.class);
 
+
+    }
+
+    @Test
+    public void testJsonnode(){
+       when(jsonNode.asText()).thenReturn("name");
+        Assert.assertEquals("name",jsonNode.asText());
 
     }
 
