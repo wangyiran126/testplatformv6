@@ -83,13 +83,13 @@ public class SpringTest {
 //        params.put(35l,null);
 //        archivesManageService.addUserTypeExtOfUser(UserTypeExt.RelationShip.CHECKBOX.getType(),params,15l);
         //添加用户text选项
-//        Map<Object,Object> params = new HashMap<>();
-//        params.put(36l,"南无阿弥陀佛");
-//        archivesManageService.addUserTypeExtOfUser(UserTypeExt.RelationShip.TEXT.getType(),params,115l);
-        //添加用户radio选项
         Map<Object,Object> params = new HashMap<>();
-        params.put(1l,"");
-        archivesManageService.addUserTypeExtOfUser(UserTypeExt.RelationShip.SINGLERADIO.getType(),params,115l);
+        params.put(36l,"你好");
+        archivesManageService.addUserTypeExtOfUser(UserTypeExt.RelationShip.TEXT.getType(),params,115l);
+        //添加用户radio选项
+//        Map<Object,Object> params = new HashMap<>();
+//        params.put(1l,"");
+//        archivesManageService.addUserTypeExtOfUser(UserTypeExt.RelationShip.SINGLERADIO.getType(),params,115l);
     }
 
     @Test
@@ -107,7 +107,7 @@ public class SpringTest {
      */
     @Test
     public void testfilterUserType(){
-        List<String> textValue = Arrays.asList("南无阿弥陀佛");
+        List<String> textValue = Arrays.asList("你好");
         List<Long> checkboxIds = Arrays.asList(119l,30l,1l);
         List<User> filteredUser = archivesManageService.filterUserType(textValue,checkboxIds);
         Assert.assertTrue(filteredUser.size()>0);
