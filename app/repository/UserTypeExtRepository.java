@@ -24,7 +24,8 @@ public interface UserTypeExtRepository extends GraphRepository<UserTypeExt> {
     @Query("match(ute:UserTypeExt),(t:Text) where ID(ute) = {userTypeExtId} and ID(t) = {textId} create (ute)-[:have]->(t)")
     void saveText(@Param("userTypeExtId") Long userTypeExtId, @Param("textId") Long textId);
 
-    @Query("match (u:User)-[:fill]->(ov:OptionValue),(u)-[:fill]->(tv:TextValue) where ID(ov) in {optionValueIds} and tv.value in {textValue} return u")
+    @Query("match (u:User)-[f:fill]->(ov:OptionValue),(u)-[:fill]->(tv:TextValue) with u,collect(ID(ov)) as ids,collect(tv.value) as tvs  WHERE ALL (v IN {optionValueIds} WHERE v IN ids) and ALL (v2 in {textValue} WHERE v2 IN tvs) return u")
+//    @Query("match (u:User)-[:fill]->(ov:OptionValue),(u)-[:fill]->(tv:TextValue) where ID(ov) in {optionValueIds} and tv.value in {textValue} return u")
     List<User> filterUserType(@Param("textValue") List<String> textValue, @Param("optionValueIds") List<Long> optionValueIds);
 
     @Query("match (ute:UserTypeExt),(r:Radio) where ID(r) = {radioId} and ID(ute) in {userTypeExtId} create (ute)-[:have]->(r)")

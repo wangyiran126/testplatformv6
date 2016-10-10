@@ -1,6 +1,5 @@
 package service.archivesManage;
 
-import entity.Checkbox;
 import entity.Department;
 import entity.User;
 import entity.UserTypeExt;
@@ -11,15 +10,19 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.openjdk.jmh.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
-import  static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 /**
  * Created by wangyiran on 8/10/2016.
  */
@@ -75,12 +78,18 @@ public class SpringTest {
 
     @Test
     public void testaddUserTypeExtOfUser(){
+        //添加用户checkbox选项
 //        Map<Object,Object> params = new HashMap<>();
 //        params.put(35l,null);
 //        archivesManageService.addUserTypeExtOfUser(UserTypeExt.RelationShip.CHECKBOX.getType(),params,15l);
+        //添加用户text选项
+//        Map<Object,Object> params = new HashMap<>();
+//        params.put(36l,"南无阿弥陀佛");
+//        archivesManageService.addUserTypeExtOfUser(UserTypeExt.RelationShip.TEXT.getType(),params,115l);
+        //添加用户radio选项
         Map<Object,Object> params = new HashMap<>();
-        params.put(36l,"南无阿弥陀佛");
-        archivesManageService.addUserTypeExtOfUser(UserTypeExt.RelationShip.TEXT.getType(),params,115l);
+        params.put(1l,"");
+        archivesManageService.addUserTypeExtOfUser(UserTypeExt.RelationShip.SINGLERADIO.getType(),params,115l);
     }
 
     @Test
@@ -99,7 +108,7 @@ public class SpringTest {
     @Test
     public void testfilterUserType(){
         List<String> textValue = Arrays.asList("南无阿弥陀佛");
-        List<Long> checkboxIds = Arrays.asList(119l,30l);
+        List<Long> checkboxIds = Arrays.asList(119l,30l,1l);
         List<User> filteredUser = archivesManageService.filterUserType(textValue,checkboxIds);
         Assert.assertTrue(filteredUser.size()>0);
     }

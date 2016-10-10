@@ -190,6 +190,7 @@ public class ArchivesManageService {
             Radio radio = new Radio();
             radio.setName(checkName);
             radioRepository.save(radio);
+            radioRepository.saveOption(radio.getId(),optionValueIds);
             //存储radio 选项关系
             userTypeExtRepository.saveRadio(userTypeExtId,radio.getId());
         }
@@ -244,6 +245,12 @@ public class ArchivesManageService {
                     }
             );
 
+        }else if (UserTypeExt.RelationShip.SINGLERADIO.getType().equals(type)){//如果是radio选项
+            params.forEach(
+                    (optionValueId,value)->{//创建用户选中的radio关系
+                        radioRepository.createSelected((Long)optionValueId,userId);
+                    }
+            );
         }
     }
 
