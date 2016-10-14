@@ -1,22 +1,21 @@
-FROM ubuntu
-FROM java
+FROM java:8u92-jdk-alpine
 
 #安装scala
-su apt-get remove scala-library scala
-wget http://www.scala-lang.org/files/archive/scala-2.11.6.deb
-dpkg -i scala-2.11.6.deb
-apt-get update
-apt-get install scala
+#RUN apt-get remove scala-library scala
+RUN wget http://www.scala-lang.org/files/archive/scala-2.12.0-RC1-1e81a09.deb
+RUN dpkg -i scala-2.12.0-RC1-1e81a09.deb
+RUN apt-get update
+RUN apt-get install scala
 
 #安装activator
-cd /opt
-wget http://downloads.typesafe.com/typesafe-activator/1.3.2/typesafe-activator-1.3.2-minimal.zip
-unzip typesafe-activator-1.3.2-minimal.zip
-mv activator-1.3.2-minimal activator
+#RUN cd /opt
+#RUN wget http://downloads.typesafe.com/typesafe-activator/1.3.2/typesafe-activator-1.3.2-minimal.zip
+#RUN unzip typesafe-activator-1.3.2-minimal.zip
+#RUN mv activator-1.3.2-minimal activator
 
 #设置activator命令
-cd /opt/activator
-export PATH=$PATH:/opt/activator
-source ~/.bashrc
-chmod a+x activator
-./activator
+#RUN cd /opt/activator
+#RUN export PATH=$PATH:/opt/activator
+#RUN source ~/.bashrc
+#RUN chmod a+x activator
+#RUN ./activator
