@@ -10,6 +10,7 @@ RUN mkdir project && cd project && git clone https://github.com/wangyiran126/tes
 RUN cd $WORKSPACE/app/test && ls
 
 
+
 #WORKDIR /Users/wangyiraddddddddn/project/testplatformV6/app/test
 
 #RUN javac HelloWorld.java
